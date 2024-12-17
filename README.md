@@ -87,3 +87,9 @@ Explain how people can reproduce the issue.
 <br />
 ### Can you port this to 2.4.3 or older?
 ConsolePort relies mostly on [RestrictedEnvironment](https://wowwiki-archive.fandom.com/wiki/RestrictedEnvironment) functions and [SecureHandlers](https://wowwiki-archive.fandom.com/wiki/SecureHandlers), most of those we're implemented into the game client after patch 3.0, so <b>no.</b> I'm not saying that it is completely impossible to port because I don't know but as far I know there is no alternatives to RestrictedEnvironment on older clients, it seems like that there is an alternative to SecureHandlers implemented in patch 2.0 but the documentation about it is scarce and I do not have any interest in porting it to older versions.
+<br />
+<br />
+### The AddOn does not work on X client. Why?
+ConsolePortLK has only been made taking in consideration default WoW API for 3.3.5a, if you are trying to use this AddOn in a heavily modded client it may work, but you can't be surprised if it doesn't since it relies heavily on sensitive secure APIs, changes in these might break everything.<br/><br/>
+
+If somehow it doesn't work for you in a customized client, don't expect fast changes in this AddOn just to support it unless someone with enough interest send pull requests fixing these issues when they happen, because customized clients can be a moving target and may get new modifications that break old stuff.
