@@ -35,7 +35,7 @@ local HotkeyMixin, GroupMixin = {}, {}
 
 -- Initialize secure namespace
 ---------------------------------------------------------------
-EM:Execute([[
+SecureHandlerExecute(EM, [[
 	-- References to other frames
 	headers = newtable()
 
@@ -54,9 +54,9 @@ EM:Execute([[
 ]])
 
 for side, set in pairs(Key) do
-	EM:Execute('btns.'..side..' = newtable()')
+	SecureHandlerExecute(EM, 'btns.'..side..' = newtable()')
 	for name, keyID in pairs(set) do
-		EM:Execute(format([[ btns.%s.%s = '%s' ]], side, name, keyID))
+		SecureHandlerExecute(EM, format([[ btns.%s.%s = '%s' ]], side, name, keyID))
 	end
 end
 

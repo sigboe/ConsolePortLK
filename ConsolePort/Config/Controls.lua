@@ -1023,10 +1023,9 @@ db.PANELS[#db.PANELS + 1] = {name = 'Controls', header = SETTINGS, mixin = Windo
 		local first, last
 
 		for i, info in pairs({
-			{'CP', L.LINK_CP, 'http://www.consoleport.net'},
-			{'WM', L.LINK_WM, 'https://github.com/topher-au/WoWmapper/releases/latest'},
-			{'Discord', L.LINK_DISCORD, 'https://discord.gg/AWeHd48'},
-			{'Patreon', L.LINK_PATREON, 'https://www.patreon.com/consoleport'},
+			{'CP', L.LINK_CP, 'https://github.com/leoaviana/ConsolePortLK/'},
+			{'WM', L.LINK_WM, 'https://github.com/leoaviana/WoWmapperX/releases/latest'}, 
+			{'PP', L.LINK_PAYPAL, 'https://www.paypal.com/donate/?hosted_button_id=CSQHQU3DNCRYU'},
 		})
 		do
 			local id, tooltip, link = unpack(info)

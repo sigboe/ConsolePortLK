@@ -163,10 +163,9 @@ TUTORIAL = {
 		LEFT 				= 'Left',
 		RIGHT 				= 'Right',
 		-----------------------------------------------------------
-		LINK_WM 			= 'WoWmapper on GitHub',
-		LINK_CP 			= 'ConsolePort website',
-		LINK_DISCORD 		= 'Discord channel',
-		LINK_PATREON		= 'Patreon page',
+		LINK_WM 			= 'WoWmapperX on GitHub',
+		LINK_CP 			= 'ConsolePortLK on GitHub', 
+		LINK_PAYPAL		= 'Paypal donation',
 	},
 	HINTS = {
 		DISABLE 				= 'Disable on-screen hints',

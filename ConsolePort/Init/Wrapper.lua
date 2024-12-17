@@ -510,28 +510,28 @@ function CPAPI.RoundCooldown_OnLoad(self)
 			-- Show/hide necessary textures if we need to
 			if self._clockwise then
 				for i = 1, 4 do 
-					CPAPI.SetShown(self._textures[i],i < quadrant)
+					CPAPI.SetShown(self._textures[i], i < quadrant)
 				end
 			else
 				for i = 1, 4 do
-					CPAPI.SetShown(self._textures[i],i > quadrant)
+					CPAPI.SetShown(self._textures[i], i > quadrant)
 				end
 			end
 			-- Move scrollframe/wedge to the proper quadrant
-			self._scrollframe:Hide();
+--			self._scrollframe:Hide();
 			self._scrollframe:SetAllPoints(self._textures[quadrant])
-			self._scrollframe:Show();
+--			self._scrollframe:Show();
 		end
 	
 		-- Rotate the things
 		local rads = value * pi2
 		if not self._clockwise then rads = -rads + halfpi end
 		Transform(self._wedge, -0.5, -0.5, rads, self._aspect)
-		self._rotation:SetDuration(0.000001)
-		self._rotation:SetEndDelay(2147483647)
-		self._rotation:SetOrigin('BOTTOMRIGHT', 0, 0)
+--		self._rotation:SetDuration(0.000001)
+--		self._rotation:SetEndDelay(2147483647)
+--		self._rotation:SetOrigin('BOTTOMRIGHT', 0, 0)
 		self._rotation:SetRadians(-rads);
-		self._group:Play();
+--		self._group:Play();
 	end
 	
 	local function SetClockwise(self, clockwise)
@@ -626,10 +626,15 @@ function CPAPI.RoundCooldown_OnLoad(self)
 		spinner.SetValue = SetValue
 	
 		local group = wedge:CreateAnimationGroup()
-		group:SetScript('OnFinished', function() group:Play() end);
+--		group:SetScript('OnFinished', function() group:Play() end);
 		local rotation = group:CreateAnimation('Rotation')
 		spinner._rotation = rotation
 		spinner._group = group;
+		rotation:SetDuration(0)
+        rotation:SetEndDelay(1)
+        rotation:SetOrigin('BOTTOMRIGHT', 0, 0)
+        group:SetScript('OnPlay', OnPlay)
+        group:Play()
 		return spinner
 	end
 	 
@@ -750,4 +755,9 @@ end
 function CPAPI.RoundCooldown_OnHideCooldown(self)
 	local parentname = self:GetParent():GetName().."RCooldown"
 	_G[parentname].spinner:SetAlpha(0) -- Hide without losing events 
+end
+
+-- Check if the client running is ascension client. there is probably a better way of doing this but it works.
+function CPAPI.IsAscension() 
+    return _G["AscensionTimer"] ~= nil
 end

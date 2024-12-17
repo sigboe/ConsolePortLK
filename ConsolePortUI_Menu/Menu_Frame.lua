@@ -12,7 +12,11 @@ local lootHeaderOnSetScript = L.lootHeaderOnSetScript
 local maskTemplates = {'CPUIMenuButtonBaseTemplate', 'SecureActionButtonTemplate'}
 local baseTemplates = {'CPUIMenuButtonMaskTemplate', 'SecureActionButtonTemplate'}
 
-local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemplate, CPUIMenuTemplate', {
+-- Check if game is ascension.
+local isAscension = CPAPI.IsAscension()
+
+
+local Menu =  UI:CreateFrame('Frame', an, isAscension and EscapeMenu or GameMenuFrame, 'SecureHandlerStateTemplate, CPUIMenuTemplate', {
 	{
 		Character = {
 			Type 	= 'CheckButton',
@@ -322,34 +326,45 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					RefTo 	= LFDMicroButton,
 					Attrib 	= {hidemenu = true},
 				},
-				--[==[
-				WhatsNew  = {
-					Type 	= 'Button',
-					Setup 	= {'SecureActionButtonTemplate'},
-					Mixin 	= Button,
-					ID 		= 5,
-					Point 	= {'TOP', 'parent.Achievements', 'BOTTOM', 0, 0},
-					Desc	= GAMEMENU_NEW_BUTTON,
-					Click 	= GameMenuButtonWhatsNew,
-					Img 	= ICON:format('WoW_Token01')
-				},
-				Shop  = {
-					Type 	= 'Button',
-					Setup 	= {'SecureActionButtonTemplate'},
-					Mixin 	= Button,
-					ID 		= 6,
-					Point 	= {'TOP', 'parent.WhatsNew', 'BOTTOM', 0, 0},
-					Desc	= BLIZZARD_STORE,
-					Click 	= GameMenuButtonStore,
-					Img 	= ICON:format('WoW_Store'),
-				},
-				--]==]
-				Teleport  = {
+				
+				-- Ascension specifics
+				PathToAscension  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
 					ID 		= 6,
 					Point 	= {'TOP', 'parent.PVEFinder', 'BOTTOM', 0, 0},
+					Desc	= PATH_TO_ASCENSION,
+					RefTo 	= PathToAscensionMicroButton,
+					Img 	= [[Interface\ICONS\inv_azeriteexplosion]],
+					Attrib 	= {
+						hidemenu = true, 
+						condition = string.format('return %s', tostring(isAscension))
+					},
+				},
+				Trials  = {
+					Type 	= 'Button',
+					Setup 	= baseTemplates,
+					Mixin 	= Button,
+					ID 		= 7,
+					Point 	= {'TOP', 'parent.PathToAscension', 'BOTTOM', 0, 0},
+					Desc	= TRIALS,
+					RefTo 	= ChallengesMicroButton,
+					Img 	= [[Interface\ICONS\_CallToArmsRed]],
+					Attrib 	= {
+						hidemenu = true,
+						condition = string.format('return %s', tostring(isAscension))
+					},
+				},
+
+				-----------
+
+				Teleport  = {
+					Type 	= 'Button',
+					Setup 	= baseTemplates,
+					Mixin 	= Button,
+					ID 		= 8,
+					Point 	= {'TOP', isAscension and 'parent.Trials' or 'parent.PVEFinder', 'BOTTOM', 0, 0},
 					Img 	= ICON:format('Spell_Shadow_Teleport'),  Attrib 	= {
 						hidemenu 	= true,
 						condition 	= 'return PlayerInGroup()',
@@ -377,7 +392,7 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 			Text	= '|TInterface\\Store\\category-icon-featured:18:18:-4:0:64:64:14:50:14:50|t' .. SOCIAL_BUTTON,
 			ID = 3,
 			SetAttribute = {'_onclick', 'control:RunFor(self:GetParent(), self:GetParent():GetAttribute("ShowHeader"), self:GetID())'},
-			{	
+			{	 
 				Friends  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
@@ -441,9 +456,7 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					Desc 	= RAID,
 					Img 	= [[Interface\LFGFRAME\UI-LFR-PORTRAIT]],
                     Attrib 	= {hidemenu = true},
-					Scripts = { 
-						OnClick = function(self) ToggleFriendsFrame(5) end,
-					},
+					OnClick = function(self) ToggleFriendsFrame(5) end, 
 				},
 				Party  = {
 					Type 	= 'Button',
@@ -468,7 +481,7 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 							end
 						end,
 					},
-				},
+				}, 
 			},
 		},
 		System = {
@@ -489,9 +502,9 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					ID 		= 1,
 					Point 	= {'TOP', 'parent', 'BOTTOM', 0, -16},
 					Desc	= RETURN_TO_GAME,
-					RefTo 	= GameMenuButtonContinue,
+					RefTo 	= isAscension and EscapeMenuButton1 or GameMenuButtonContinue,
 					Img 	= [[Interface\FriendsFrame\Battlenet-WoWicon]], 
-				},
+				}, 
 				Logout  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
@@ -499,7 +512,7 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					ID 		= 2,
 					Point 	= {'TOP', 'parent.Return', 'BOTTOM', 0, 0},
 					Desc	= LOGOUT,
-					RefTo 	= GameMenuButtonLogout,
+					RefTo 	= isAscension and EscapeMenuButton3 or GameMenuButtonLogout,
 					Img 	= ICON:format('Ability_Paladin_BeaconOfLight'),
 				--	OnLoadHook = function(self) SetPortraitToTexture(self.Icon, ICON:format('Ability_Paladin_BeaconOfLight')) end,
 				},
@@ -510,7 +523,7 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					ID 		= 3,
 					Point 	= {'TOP', 'parent.Logout', 'BOTTOM', 0, 0},
 					Desc	= EXIT_GAME,
-					RefTo 	= GameMenuButtonQuit,
+					RefTo 	= isAscension and EscapeMenuButton2 or GameMenuButtonQuit,
 					Img 	= [[Interface\RAIDFRAME\ReadyCheck-NotReady]],
 				},
 				Controller  = {
@@ -530,39 +543,54 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 						end
 					end,
 				},
-				System  = {
+				Video  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
 					ID 		= 5,
 					Point 	= {'TOP', 'parent.Controller', 'BOTTOM', 0, 0},
-					Desc	= CHAT_MSG_SYSTEM, 
-					RefTo 	= GameMenuButtonOptions,
+					Desc	= VIDEOOPTIONS_MENU, 
+					RefTo 	= isAscension and EscapeMenuButton4 or GameMenuButtonOptions,
+					Img 	= [[Interface\Icons\Ability_TownWatch]], 
+					OnLoadHook = function(self) SetPortraitToTexture(self.Icon, ICON:format('Ability_TownWatch')) end,
+				},
+				Audio  = {
+					Type 	= 'Button',
+					Setup 	= baseTemplates,
+					Mixin 	= Button,
+					ID 		= 6,
+					Point 	= {'TOP', 'parent.Video', 'BOTTOM', 0, 0},
+					Desc	= VOICE_SOUND, 
+					RefTo 	= isAscension and EscapeMenuButton5 or GameMenuButtonSoundOptions,
 					Img 	= [[Interface\FriendsFrame\PlusManz-BattleNet]],
 				},
 				Interface  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
-					ID 		= 6,
-					Point 	= {'TOP', 'parent.System', 'BOTTOM', 0, 0},
+					ID 		= 7,
+					Point 	= {'TOP', 'parent.Audio', 'BOTTOM', 0, 0},
 					Desc	= UIOPTIONS_MENU, 
-					RefTo 	= GameMenuButtonUIOptions,
+					RefTo 	= isAscension and EscapeMenuButton8 or GameMenuButtonUIOptions,
 					Img 	= [[Interface\TUTORIALFRAME\UI-TutorialFrame-GloveCursor]],
 				},
 				AddOns  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
-					ID 		= 7,
+					ID 		= 8,
 					Point 	= {'TOP', 'parent.Interface', 'BOTTOM', 0, 0},
 					Desc	= ADDONS, 
                     Attrib 	= {hidemenu = true},
-					OnClick = function(self)   
-						InterfaceOptionsFrame:Show()
-						PanelTemplates_SetTab(InterfaceOptionsFrame, 2);       
-						InterfaceOptionsFrameAddOns:Show();
-						InterfaceOptionsFrameCategories:Hide();
+					OnClick = function(self)
+						if (not isAscension) then 
+							InterfaceOptionsFrame:Show()
+							PanelTemplates_SetTab(InterfaceOptionsFrame, 2);       
+							InterfaceOptionsFrameAddOns:Show();
+							InterfaceOptionsFrameCategories:Hide();
+						else
+							ShowAddonsPanel()
+						end
 					end,
 					Img 	= ICON:format('inv_misc_wrench_01'),
 					OnLoadHook = function(self) SetPortraitToTexture(self.Icon, ICON:format('inv_misc_wrench_01')) end,
@@ -571,10 +599,10 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
-					ID 		= 8,
+					ID 		= 9,
 					Point 	= {'TOP', 'parent.AddOns', 'BOTTOM', 0, -16},
 					Desc	= MACROS, 
-					RefTo 	= GameMenuButtonMacros,
+					RefTo 	= isAscension and EscapeMenuButton11 or GameMenuButtonMacros,
 					Img 	= ICON:format('trade_engineering'),
 					LoadScript = function(self) SetPortraitToTexture(self.Icon, ICON:format('trade_engineering')) end,
 				},
@@ -582,23 +610,24 @@ local Menu =  UI:CreateFrame('Frame', an, GameMenuFrame, 'SecureHandlerStateTemp
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
-					ID 		= 9,
+					ID 		= 10,
 					Point 	= {'TOP', 'parent.Macros', 'BOTTOM', 0, 0},
 					Desc	= KEY_BINDINGS, 
-					RefTo 	= GameMenuButtonKeybindings,
+					RefTo 	= isAscension and EscapeMenuButton9 or GameMenuButtonKeybindings,
 					Img 	= [[Interface\MacroFrame\MacroFrame-Icon]],
 				},
 				Help  = {
 					Type 	= 'Button',
 					Setup 	= baseTemplates,
 					Mixin 	= Button,
-					ID 		= 10,
+					ID 		= 11,
 					Point 	= {'TOP', 'parent.KeyBindings', 'BOTTOM', 0, 0},
 					Desc	= HELP_LABEL, 
 					RefTo 	= HelpMicroButton,
+                    Attrib 	= {hidemenu = true},
 					Img 	= ICON:format('INV_Misc_QuestionMark'),
 					OnLoadHook = function(self) SetPortraitToTexture(self.Icon, ICON:format('INV_Misc_QuestionMark')) end,
-				},
+				}, 
 			},
 		},
 	},
@@ -793,15 +822,27 @@ do
 	Menu:Execute('hID, bID = 4, 1')
 	Menu:DrawIndex(function(header)
 		for i, button in ipairs({header:GetChildren()}) do
+
+			if(isAscension) then -- workaround for stackoverflow caused by ascension's framexml changes.
+				button._RegisterForClicks = nil 
+			end
+
 			if button:GetAttribute('hidemenu') then
 				button:SetAttribute('type', 'macro')
-				button:SetAttribute('macrotext', '/click GameMenuButtonContinue')
+
+				if(isAscension) then
+					button:SetAttribute('macrotext', '/click EscapeMenuButton1')
+				else
+					button:SetAttribute('macrotext', '/click GameMenuButtonContinue')
+				end
+
 			end
 			if button.RefTo then
 				local macrotext = button:GetAttribute('macrotext')
-				local prefix = (macrotext and macrotext .. '\n') or ''
+				local prefix = (macrotext and macrotext .. '\n') or ''  
 				button:SetAttribute('macrotext', prefix .. '/click ' .. button.RefTo:GetName())
-				button:SetAttribute('type', 'macro')
+				button:SetAttribute('type', 'macro')  
+
 			end
 			button:Hide()
 			header:SetFrameRef(tostring(button:GetID()), button)
@@ -810,7 +851,7 @@ do
 
 
 	UI:RegisterFrame(Menu, 'Menu', false, true)
-	UI:HideFrame(GameMenuFrame, true)
+	UI:HideFrame(isAscension and EscapeMenu or GameMenuFrame, true)
 
 	Menu:SetScale(cfg.scale)
 	Menu:LoadArt()

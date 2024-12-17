@@ -5,10 +5,11 @@
 -- extends the secure API to get arbitrary action data.
 ---------------------------------------------------------------
 local Pager = ConsolePortPager
+
 Pager:WrapScript(Pager, 'PreClick', [[ if down then self:SetAttribute('action', tonumber(button) or 1) else self:SetAttribute('action', 1) end ]])
 Pager:SetAttribute('type', 'actionbar')
 Pager:RegisterForClicks('AnyUp', 'AnyDown')
-Pager:Execute('headers = newtable()')
+Pager:Execute('headers = newtable()') 
 
 --[[ Functions:
 	GetActionID: Returns the correct ID for an action slot

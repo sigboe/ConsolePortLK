@@ -272,26 +272,36 @@ local DropDownMacros = {
 local SafeOnEnter, SafeOnLeave = {}, {}
 ---------------------------------------------------------------
 -------[[  OnEnter  ]]-------
+
+
 SafeOnEnter[ActionButton1:GetScript('OnEnter')] = function(self)
 	ActionButton_SetTooltip(self)
 end
+
+local SpellButton1 = CPAPI.IsAscension() and AscensionSpellbookFrameContentSpellsSpellButton1 or SpellButton1
+
 SafeOnEnter[SpellButton1:GetScript('OnEnter')] = function(self)
 	-- spellbook buttons push updates to the action bar controller in order to draw highlights
 	-- on actionbuttons that holds the spell in question. this taints the action bar controller.
-	local slot = SpellBook_GetSpellBookSlot(self)
+
+	local slot = CPAPI.IsAscension() and self.spell or SpellBook_GetSpellID(self:GetID())
+	local SpellBookFrame = CPAPI.IsAscension() and AscensionSpellbookFrame or SpellBookFrame 
+ 
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-	if ( GameTooltip:SetSpellBookItem(slot, SpellBookFrame.bookType) ) then
+	if ( GameTooltip:SetSpell(slot, SpellBookFrame.bookType) ) then 
 		self.UpdateTooltip = SafeOnEnter[SpellButton1:GetScript('OnEnter')]
-	else
+	else 
 		self.UpdateTooltip = nil
 	end
 	
 	if ( self.SpellHighlightTexture and self.SpellHighlightTexture:IsShown() ) then
 		GameTooltip:AddLine(SPELLBOOK_SPELL_NOT_ON_ACTION_BAR, LIGHTBLUE_FONT_COLOR.r, LIGHTBLUE_FONT_COLOR.g, LIGHTBLUE_FONT_COLOR.b)
 	end
-	GameTooltip:Show()
 end
+
+
 --[==[]]
+
 SafeOnEnter[QuestMapLogTitleButton_OnEnter] = function(self)
 	-- this replacement script runs itself, but handles a particular bug when the cursor is atop a quest button when the map is opened.
 	-- all data is not yet populated so difficultyHighlightColor can be nil, which isn't checked for in the default UI code.
@@ -311,7 +321,8 @@ SafeOnLeave[SpellButton_OnLeave] = function(self)
 	GameTooltip:Hide()
 end
 
--]==]
+--]==]
+
 ---------------------------------------------------------------
 -- Allow access to these tables for plugins and addons on demand.
 function Cursor:ReplaceOnEnter(original, replacement) SafeOnEnter[original] = replacement end
@@ -505,31 +516,35 @@ local function SpecialAction(self)
 				end
 			end
 		-- Spell button
-		elseif ((node and node:GetParent()):GetName() and (node and node:GetParent()):GetName():match("SpellBookFrame") -- 'if node.SpellName then'
-					and node:GetName():match("SpellButton")) then
-						 
-			local book, id, spellID, _ = SpellBookFrame, node:GetID()  
-			local sID, sDisplayID = SpellBook_GetSpellID(id);   
+		elseif ((node and node:GetParent()):GetName() and (node and node:GetParent()):GetName():match(CPAPI.IsAscension() and "AscensionSpellbookFrame" or "SpellBookFrame") -- 'if node.SpellName then'
+					and node:GetName():match("SpellButton")) then 
+						
+			local SpellBookFrame = CPAPI.IsAscension() and AscensionSpellbookFrame or SpellBookFrame
 
-			if 	not IsPassiveSpell(sID, SpellBookFrame.bookType) then 
-				if book.bookType == BOOKTYPE_PROFESSION then 
-					spellID = id + node:GetParent().spellOffset
-				elseif book.bookType == BOOKTYPE_PET then
-					spellID = id + (SPELLS_PER_PAGE * (SPELLBOOK_PAGENUMBERS[BOOKTYPE_PET] - 1))
-					return;
-				else 
-				--	local relativeSlot = id + ( SPELLS_PER_PAGE * (SPELLBOOK_PAGENUMBERS[book.selectedSkillLine] - 1))
-				--	print(book.selectedSkillLineNumSlots)
-				--	if book.selectedSkillLineNumSlots and relativeSlot <= book.selectedSkillLineNumSlots then 
-				--		local slot = book.selectedSkillLineOffset + relativeSlot
-				--		_, spellID = GetSpellBookItemInfo(slot, book.bookType)
-				--	end  
-				end
-			--	if spellID then 
-			--		PickupSpell(spellID)
-			--	end
-				if(sID) then
-					PickupSpell(sID, book.bookType)
+			if(node:IsEnabled() ~= 0) then 
+				local book, id, spellID, _ = SpellBookFrame, node:GetID()  
+				local sID, sDisplayID = CPAPI.IsAscension() and node.spell or SpellBook_GetSpellID(id);   
+			
+				if 	not IsPassiveSpell(sID, SpellBookFrame.bookType) then 
+					if book.bookType == BOOKTYPE_PROFESSION then 
+						spellID = id + node:GetParent().spellOffset
+					elseif book.bookType == BOOKTYPE_PET then
+						spellID = id + (SPELLS_PER_PAGE * (SPELLBOOK_PAGENUMBERS[BOOKTYPE_PET] - 1))
+						return;
+					else 
+					--	local relativeSlot = id + ( SPELLS_PER_PAGE * (SPELLBOOK_PAGENUMBERS[book.selectedSkillLine] - 1))
+					--	print(book.selectedSkillLineNumSlots)
+					--	if book.selectedSkillLineNumSlots and relativeSlot <= book.selectedSkillLineNumSlots then 
+					--		local slot = book.selectedSkillLineOffset + relativeSlot
+					--		_, spellID = GetSpellBookItemInfo(slot, book.bookType)
+					--	end  
+					end
+				--	if spellID then 
+				--		PickupSpell(spellID)
+				--	end
+					if(sID) then
+						PickupSpell(sID, book.bookType)
+					end
 				end
 			end
 		-- Text field

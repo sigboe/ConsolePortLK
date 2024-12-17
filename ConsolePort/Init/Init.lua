@@ -40,6 +40,39 @@ end
 
 ---------------------------------------------------------------
 
+
+
+---------------------------------------------------------------
+-- Ascension workarounds
+---------------------------------------------------------------
+
+local function FixSecureHandler(object)
+    function object:SetFrameRef(label, ref)
+        SecureHandlerSetFrameRef(object, label, ref)
+    end
+
+    function object:Execute(func)
+        SecureHandlerExecute(object, func)
+    end
+
+    function object:WrapScript(frame, name, script)
+        SecureHandlerWrapScript(frame, name, object, script)
+    end
+end
+
+if CPAPI.IsAscension() then  
+	-- for some weird reason, the SecureHandler methods are not merged with these frames.
+	FixSecureHandler(ConsolePortRaidCursor)
+	FixSecureHandler(ConsolePortEasyMotionButton)
+	FixSecureHandler(ConsolePortPager)
+	FixSecureHandler(ConsolePortRadialHandler)
+	FixSecureHandler(ConsolePortUIHandle)
+	FixSecureHandler(ConsolePortUtilityToggle)
+end
+
+---------------------------------------------------------------
+
+
 function ConsolePort:LoadSettings()
 
 	local selectController --, newUser

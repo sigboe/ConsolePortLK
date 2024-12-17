@@ -230,7 +230,7 @@
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="Line" file="Interface\AddOns\BlizzCompat\Compat\BlizzardUI\legioninvasion">
+				<Texture parentKey="Line" file="Interface\AddOns\ConsolePort\Textures\Line">
 					<Size x="300" y="50"/>
 					<TexCoords left="0.001953125" right="0.9140625" top="0.08203125" bottom="0.208984375"/>
 					<Anchors>
@@ -404,7 +404,7 @@
 		<Size x="32" y="32"/>
 		<Attributes>
 			<Attribute name="type" type="string" value="target"/>
-			<Attribute name="_onstate-unitexists" type="string" value="self:Run(UpdateUnitExists, newstate)"/>
+			<Attribute name="_onstate-unitexists" type="string" value="control:Run(UpdateUnitExists, newstate)"/>
 		</Attributes>
 		<Frames>
 			<Button name="$parentFocus" parentKey="SetFocus" inherits="SecureActionButtonTemplate">
@@ -519,7 +519,7 @@
 					<OnShow>
 						self.Group:Play();
 					</OnShow>			
-					<OnClick> if not InCombatLockdown() then SecureActionButton_OnClick(self, button, down); end</OnClick>
+					<!-- <OnClick> if not InCombatLockdown() then SecureActionButton_OnClick(self, button, down); end</OnClick> -->
 				</Scripts>
 			</Frame>
 		</Frames>

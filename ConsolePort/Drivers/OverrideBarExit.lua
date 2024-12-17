@@ -9,8 +9,7 @@ local EXIT_VEHICLE_BINDING = ('ACTIONBUTTON' .. ((NUM_OVERRIDE_BUTTONS or 6) + 1
 
 function OBExit:SetExitBinding(name, mod)
 	RegisterStateDriver(self, 'override', '[novehicleui][bonusbar:5] true; nil')
-	self:SetAttribute('_onstate-override', ([[   
-		print("ass")
+	self:SetAttribute('_onstate-override', ([[    
 		if newstate then
 			local key = GetBindingKey('%s')
 			local mod = '%s'

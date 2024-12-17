@@ -18,6 +18,8 @@ function Menu:OnHide()
 	end
 end 
 
+Menu:SetAttribute("IsAscension", CPAPI.IsAscension() and "true" or "false");
+
 Menu.CallMethodFromFrame = CPAPI.CallMethodFromFrame
 
 for name, script in pairs({
@@ -162,7 +164,11 @@ for name, script in pairs({
 			end
 
 		elseif ( key == CENTER or key == OPTIONS or key == SHARE ) and down then
-			returnHandler, returnValue = 'macrotext', '/click GameMenuButtonContinue'
+			if(self:GetAttribute('IsAscension') == "true") then 
+				returnHandler, returnValue = 'macrotext', '/click EscapeMenuButton1'
+			else
+				returnHandler, returnValue = 'macrotext', '/click GameMenuButtonContinue'
+			end
 
 		-- Select button
 		elseif key == UP and down and bID > 1 then
@@ -177,12 +183,11 @@ for name, script in pairs({
 		elseif key == RIGHT and down and hID < numheaders then
 			control:RunFor(self, self:GetAttribute('ChangeHeader'), 1)
 			control:RunFor(self, self:GetAttribute('SetDropdownButton'), 0, 1) 
-
 		end
 
 		return 'macro', returnHandler, returnValue
 	]],
-}) do Menu:AppendSecureScript(name, script) end
+}) do Menu:AppendSecureScript(name, script) end 
 
 Menu:HookScript('OnShow', Menu.OnShow)
 Menu:HookScript('OnHide', Menu.OnHide)

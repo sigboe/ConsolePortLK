@@ -639,9 +639,10 @@ function ConsolePort:GetDefaultUIFrames()
 		Blizzard_TrainerUI 			= {
 			'ClassTrainerFrame' },
 		Blizzard_VoidStorageUI		= {
-			'VoidStorageFrame' },
+			'VoidStorageFrame' }, 
 		ConsolePort					= { 
 			'AddonList',
+            'AudioOptionsFrame',
 			'BagHelpBox',
 			'BankFrame',
 			'BasicScriptErrors',
@@ -708,6 +709,15 @@ function ConsolePort:GetDefaultUIFrames()
 			'GroupLootFrame2',
 			'GroupLootFrame3',
 			'GroupLootFrame4', 
+            'AddonPanel',
+            'AscensionCharacterFrame',
+            'AscensionSpellbookFrame',
+            'AscensionLFGFrame',
+            'Collections',
+            'EscapeMenu',
+            'PathToAscensionFrame', 
+            'SkillCardsFrame',
+            
 		},
 	}
 end

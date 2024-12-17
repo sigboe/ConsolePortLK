@@ -3,6 +3,7 @@
 ---------------------------------------------------------------
 local HANDLE, _, db = ConsolePortRadialHandler, ...
 ---------------------------------------------------------------
+
 local DEFAULT_BINDINGS, LOCAL_BINDINGS = {
 	UP    = {'W', 'UP'};
 	DOWN  = {'S', 'DOWN'};
@@ -285,6 +286,7 @@ local ENV_RADIAL = {
 			end
 			control:RunAttribute('_setindex', nil)
 		end
+		
 	]];
 	---------------------------------------------------------------
 	['_onuse'] = [[
@@ -369,9 +371,16 @@ end
 
 function HANDLE:RegisterFrame(frame, id)
 	assert(IsValidFrame(frame), 'Invalid frame registered on radial handler.')
-	self:SetFrameRef(id or frame:GetName(), frame)
-	frame:SetFrameRef('HANDLE', self)
-	frame:Execute([[HANDLE = self:GetFrameRef('HANDLE'); BIT = newtable()]])
+	self:SetFrameRef(id or frame:GetName(), frame) 
+
+	if(CPAPI.IsAscension()) then
+		SecureHandlerSetFrameRef(frame, 'HANDLE', self)
+		SecureHandlerExecute(frame, [[HANDLE = self:GetFrameRef('HANDLE'); BIT = newtable()]])
+	else
+		frame:SetFrameRef('HANDLE', self)
+		frame:Execute([[HANDLE = self:GetFrameRef('HANDLE'); BIT = newtable()]])
+	end
+	
 	FRAMES[frame] = true
 
 	for script, body in pairs(ENV_RADIAL) do 

@@ -293,6 +293,8 @@ end
 function ConsolePortRingButtonMixin:PostClick(button)
 	if DROP_TYPES[GetCursorInfo()] then
 		local cursorType, id,  _, spellID = GetCursorInfo()
+		local SpellBookFrame = CPAPI.IsAscension() and AscensionSpellbookFrame or SpellBookFrame
+		
 		ClearCursor()
 
 		if InCombatLockdown() then return end
@@ -300,7 +302,7 @@ function ConsolePortRingButtonMixin:PostClick(button)
 		local newValue
 		-- Convert spellID to name
 		if cursorType == "spell" then
-			local spellName, subSpellName = GetSpellName(id, SpellBookFrame.bookType);
+			local spellName, subSpellName = GetSpellName(id, SpellBookFrame.bookType); 
 			local link = GetSpellLink(spellName, subSpellName);  
 			newValue = select(3, strfind(link, "spell:(%d+)")) 
 		elseif cursorType == "companion" then
@@ -471,7 +473,7 @@ end
 
 
 ---------------------------------------------------------------
--- Ring maangement 
+-- Ring management 
 ---------------------------------------------------------------
 
 function Utility:Initialize(ctype, ctemplate, cmixin)

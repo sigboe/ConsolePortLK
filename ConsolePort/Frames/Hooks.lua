@@ -93,9 +93,12 @@ function ConsolePort:LoadHookScripts()
 	GameTooltip:HookScript('OnTooltipSetSpell', function(self)
 		if not InCombatLockdown() then
 			local owner = self:GetOwner()
-			local id, displayID = SpellBook_GetSpellID(owner:GetID());  
+			local id, displayID = CPAPI.IsAscension() and owner.spell or SpellBook_GetSpellID(owner:GetID());  
+			local SpellBookOwner = CPAPI.IsAscension() and AscensionSpellbookFrameContentSpells or SpellBookFrame
+			local SpellBookFrame = CPAPI.IsAscension() and AscensionSpellbookFrame or SpellBookFrame 
+
 			if core:IsCurrentNode(owner) then
-				if 	owner and owner:GetParent() == SpellBookFrame and not IsPassiveSpell(id, SpellBookFrame.bookType) then 
+				if 	owner and owner:GetParent() == SpellBookOwner and not IsPassiveSpell(id, SpellBookFrame.bookType) then 
 					self:AddLine(db.CLICK.USE_NOCOMBAT, 1,1,1)
 					self:AddLine(db.CLICK.PICKUP, 1,1,1) 
 					self:Show()

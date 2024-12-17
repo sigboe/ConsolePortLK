@@ -38,7 +38,11 @@ function LootButton:OnEnter()
 			tipR, tipG, tipB = GameTooltip:GetBackdropColor()
 			tooltipBackdrop = backdrop
 		end
-		GameTooltip:SetBackdrop(nil)
+		
+		if(not CPAPI.IsAscension()) then  -- Ascension FrameXML issue.
+			GameTooltip:SetBackdrop(nil)
+		end	
+		
 		local width, height = (GameTooltip:GetWidth() or 330) + 50, (GameTooltip:GetHeight() or 50)
 		self.NameFrame:SetSize(width < 330 and 330 or width, height < 50 and 50 or height)
 		self.Text:SetAlpha(0)
