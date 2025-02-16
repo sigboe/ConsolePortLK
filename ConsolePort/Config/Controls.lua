@@ -252,8 +252,11 @@ function WindowMixin:Save()
 	-- general settings
 	for _, Check in ipairs(self.General) do
 		local old = db(Check.Cvar)
-		db(Check.Cvar, Check:GetChecked())
-		if Check.Reload and Check:GetChecked() ~= old then
+
+		local isChecked = Check:GetChecked() and true or false
+		
+		db(Check.Cvar, isChecked)
+		if Check.Reload and isChecked ~= old then
 			needReload = true
 		end
 	end
@@ -288,14 +291,14 @@ function WindowMixin:Save()
 	-- mouse events
 	for _, check in ipairs(self.Events) do
 		for _, event in ipairs(check.Events) do
-			db('Mouse/Events/'..event, check:GetChecked())
+			db('Mouse/Events/'..event, check:GetChecked() and true or false)
 		end
 	end
 
 	-- interact button full
 	if self.IBFullModule.Enable:GetChecked() and self.IBFullModule.BindCatcher.CurrentButton then
 		db('interactWith', self.IBFullModule.BindCatcher.CurrentButton)
-		db('interactNPC',  self.IBFullModule.NPC:GetChecked())
+		db('interactNPC',  self.IBFullModule.NPC:GetChecked() and true or false)
 	else
 		db('interactWith', false)
 		db('interactNPC', false)
@@ -313,9 +316,9 @@ function WindowMixin:Save()
 
 	-- smart interaction
 	if db('interactWith') or db('lootWith') then
-		db('interactCache',     self.SmartInteract.Enable:GetChecked())
-		db('interactScrape',    self.SmartInteract.Scrape:GetChecked())
-		db('nameplateNameOnly', self.SmartInteract.Plates:GetChecked())
+		db('interactCache',     self.SmartInteract.Enable:GetChecked() and true or false)
+		db('interactScrape',    self.SmartInteract.Scrape:GetChecked() and true or false)
+		db('nameplateNameOnly', self.SmartInteract.Plates:GetChecked() and true or false)
 	else
 		db('interactCache', false)
 		db('interactScrape', false)

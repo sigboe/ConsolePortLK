@@ -625,7 +625,7 @@ db.PANELS[#db.PANELS + 1] = {name = "UICtrl", header = UIOPTIONS_MENU, mixin = W
 		self:SetChecked(db.Settings.showAllAddons)
 	end)
 	UICtrl.AddonShowAll:SetScript("OnClick", function(self)
-		db.Settings.showAllAddons = self:GetChecked()
+		db.Settings.showAllAddons = self:GetChecked() and true or false
 		RefreshAddonList(UICtrl.AddonList)
 	end)
 
