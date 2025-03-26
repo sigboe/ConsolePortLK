@@ -8,12 +8,12 @@ local LootButton = L.LootButton
 local lootButtonProbeScript = L.lootButtonProbeScript
 local lootHeaderOnSetScript = L.lootHeaderOnSetScript
 
--- Dropdown button templates 
-local maskTemplates = {'CPUIMenuButtonBaseTemplate', 'SecureActionButtonTemplate'}
-local baseTemplates = {'CPUIMenuButtonMaskTemplate', 'SecureActionButtonTemplate'}
-
 -- Check if game is ascension.
 local isAscension = CPAPI.IsAscension()
+
+-- Dropdown button templates 
+local maskTemplates = {'CPUIMenuButtonBaseTemplate', isAscension and 'SecureUnitButtonTemplate' or 'SecureActionButtonTemplate'}
+local baseTemplates = {'CPUIMenuButtonMaskTemplate', isAscension and 'SecureUnitButtonTemplate' or 'SecureActionButtonTemplate'}
 
 
 local Menu =  UI:CreateFrame('Frame', an, isAscension and EscapeMenu or GameMenuFrame, 'SecureHandlerStateTemplate, CPUIMenuTemplate', {
@@ -823,9 +823,7 @@ do
 	Menu:DrawIndex(function(header)
 		for i, button in ipairs({header:GetChildren()}) do
 
-			if(isAscension) then -- workaround for stackoverflow caused by ascension's framexml changes.
-				button._RegisterForClicks = nil 
-			end
+			
 
 			if button:GetAttribute('hidemenu') then
 				button:SetAttribute('type', 'macro')
