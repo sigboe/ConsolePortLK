@@ -38,8 +38,8 @@ local PAGER_SECURE_FUNCTIONS = {
 		end
 	]],
 	GetSpellID = [[
-		local actionType, spellID, subType = control:RunFor(self, self:GetAttribute('GetActionInfo'), ...)
-		if actionType == 'spell' and subType == 'spell' then
+		local actionType, _, subType, spellID = control:RunFor(self, self:GetAttribute('GetActionInfo'), ...)
+		if actionType == 'spell' and subType == 'spell' then 
 			return spellID
 		end
 	]],

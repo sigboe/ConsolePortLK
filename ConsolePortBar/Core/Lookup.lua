@@ -98,7 +98,7 @@ local defaultReticleSpellIDs = {
 		33395, -- Freeze
 		113724, -- Ring of Frost
 		153561, -- Meteor
-		190356, -- Blizzard
+		42940, -- Blizzard
 	},
 	MONK = {
 		115313, -- Summon Jade Serpent Statue
@@ -216,7 +216,7 @@ function ab:GetReticleSpellManifest()
 	for class, classSpells in pairs(defaultReticleSpellIDs) do
 		reticleSpells[class] = reticleSpells[class] or {}
 		for _, spellID in pairs(classSpells) do
-			local localizedSpellName = GetSpellInfo(spellID)
+			local localizedSpellName = GetSpellInfo(spellID) 
 			if localizedSpellName then
 				reticleSpells[class][spellID] = localizedSpellName
 			end

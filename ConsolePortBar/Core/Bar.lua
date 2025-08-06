@@ -29,7 +29,7 @@ Bar:SetFrameRef('Mouse', ConsolePortMouseHandle)
 Bar:Execute([[
 	bindings = newtable()
 	reticleSpellManifest = newtable()
-	reticleMacroString = '/stopspelltarget\n/cast [@cursor] %s'
+	reticleMacroString = '/run UnitXP("target", "castReticle")' -- reticleMacroString = '/stopspelltarget\n/cast [@cursor] %s'
 	bar = self
 	cursor = self:GetFrameRef('Cursor')
 	mouse = self:GetFrameRef('Mouse')
@@ -357,11 +357,11 @@ for name, script in pairs({
 	]],
 	['GetReticleMacro'] = [[
 		if disableCastOnRelease then return end
-		local actionID, buttonID, down, macro = ...
+		local actionID, buttonID, down, macro = ...  
 
 		if down then
 			if not storedSpellID then
-				storedSpellID = control:RunFor(self, self:GetAttribute('GetSpellID'), actionID)
+				storedSpellID = control:RunFor(self, self:GetAttribute('GetSpellID'), actionID) 
 				storedButtonID = buttonID
 				if reticleSpellManifest[storedSpellID] then
 					control:CallMethod('StopCamera')

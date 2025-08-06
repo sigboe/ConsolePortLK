@@ -534,7 +534,8 @@ local Menu =  UI:CreateFrame('Frame', an, isAscension and EscapeMenu or GameMenu
 					Point 	= {'TOP', 'parent.Exit', 'BOTTOM', 0, -16},
 					Desc	= CONTROLS_LABEL,
 					Img 	= db.TEXTURE.CP_X_CENTER,
-                    Attrib 	= {hidemenu = true},
+                    Attrib 	= {hidemenu = true}, 
+					OnLoadHook = function(self) SetPortraitToTexture(self.Icon, db.TEXTURE.CP_X_CENTER) end,
 					OnClick = function() 
 						if InCombatLockdown() then
 							ConsolePortOldConfig:OnShow()

@@ -367,18 +367,20 @@ end
 
 function WrapOnClick(button) 
 	button.header:WrapScript(button, "PreClick", [[
-		local reticleMacro = control:RunAttribute("GetReticleMacro", self:GetAttribute("action"))
+		local reticleMacro = control:RunAttribute("GetReticleMacro", self:GetAttribute("action"), self:GetAttribute("plainID"), down) 
+		 
 		if button == 'ControllerInput' and not down then
-			if reticleMacro then
+			if reticleMacro then 
 				self:SetAttribute("type", "macro")
 				self:SetAttribute("macrotext", reticleMacro)
-			else
+			else 
 				self:SetAttribute("type", "omit")
 			end
 		end
 	]]) 
 	-- Wrap OnClick, to catch changes to actions that are applied with a click on the button.
 	button.header:WrapScript(button, "OnClick", [[
+	
 		if down then
 			if self:GetAttribute("type") == "action" then
 				local type, action = GetActionInfo(self:GetAttribute("action"))
@@ -394,6 +396,8 @@ function WrapOnClick(button)
 		end
 	]])
 	button.header:WrapScript(button, "PostClick", [[
+	
+
 		self:SetAttribute("type", self:GetAttribute("action_field"))
 	]]) 
 end

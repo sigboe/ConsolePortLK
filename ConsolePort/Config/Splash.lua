@@ -30,7 +30,9 @@ function ConsolePort:CheckCalibration(forceCustom)
 
 		-- no calibration data found, go to custom calibration.
 		for button in self:GetBindings() do
-			local isConfigurableButton = not ( button == "CP_X_CENTER" and db.Settings.skipGuideBtn )
+			local isConfigurableButton = 
+    				not (button == "CP_X_CENTER" and db.Settings.skipGuideBtn) and 
+    				not ((button == "CP_T3" or button == "CP_T4" or button == "CP_T5" or button == "CP_T6") and db.Settings["skip" .. button])
 			local isDynamicKeyAllowed = not ( button:match("CP_T_.3") )
 			-----------------------------------------------------------------------------------
 			if 	isConfigurableButton and isDynamicKeyAllowed and not GetBindingKey(button) then
@@ -50,6 +52,11 @@ function ConsolePort:CalibrateController(reset)
 		db('stickRadialType', 0)
 		db('calibration', nil)
 		db('skipGuideBtn', false)
+		db('skipCP_T3', false)
+		db('skipCP_T4', false)
+		db('skipCP_T5', false)
+		db('skipCP_T6', false)
+
 		for button in self:GetBindings() do
 			if not button:match("CP_T_.3") then -- ignore mouse buttons
 				local key1, key2 = GetBindingKey(button)
@@ -195,9 +202,14 @@ function ConsolePort:CalibrateController(reset)
 			cbF.Skip = db.Atlas.GetFutureButton("$parentSkip", cbF)
 			cbF.Skip:SetPoint("BOTTOM", 0, 24)
 			cbF.Skip:SetText(SETUP.SKIPGUIDE)
-			cbF.Skip:Hide()
+			cbF.Skip:Hide() 
+			cbF.Skip.gButton = "CP_X_CENTER"
 			cbF.Skip:SetScript("OnClick", function()
-				db('skipGuideBtn', true)
+				if(cbF.Skip.gButton == "CP_X_CENTER") then
+					db('skipGuideBtn', true)
+				else
+					db('skip'.. cbF.Skip.gButton, true)
+				end
 				self:CheckCalibration(true)
 			end)
 		end
@@ -554,7 +566,8 @@ function ConsolePort:CalibrateController(reset)
 				local unassigned = ConsolePort:CheckCalibration(true)
 				if unassigned then
 					self.BTN = unassigned[1]
-					if self.Skip and self.BTN == "CP_X_CENTER" then
+					if self.Skip and (self.BTN == "CP_X_CENTER" or self.BTN == "CP_T3" or self.BTN == "CP_T4" or self.BTN == "CP_T5" or self.BTN == "CP_T6") then
+						self.Skip.gButton = self.BTN
 						self.Skip:Show()
 					elseif self.Skip then
 						self.Skip:Hide()
@@ -591,87 +604,97 @@ end
 function ConsolePort:SelectController()
 	if not ConsolePortSplashFrame then
 		local Splash = db.Atlas.CreateFrame("ConsolePortSplashFrame")
-		local BTN_WIDTH, BTN_HEIGHT, TEX_SIZE, TEX_ROTATION = 200, 390, 400, 0.523598776
+		local BTN_WIDTH, BTN_HEIGHT, TEX_SIZE, TEX_ROTATION = 150, 220, 300, 0.523598776
 		Splash.Controllers = {}
-
+		
+		local ROW_MAX = 3 -- Number of controllers per row
+		local ROW_PADDING = 10 -- Padding between rows
+		local COL_PADDING = 10 -- Padding between columns
+	
 		local function OnEnter(self)
 			for _, controller in pairs(Splash.Controllers) do
 				db.UIFrameFadeOut(controller, 0.1, controller:GetAlpha(), 0.25)
 			end
 			db.UIFrameFadeIn(self, 0.1, self:GetAlpha(), 1)
 		end
-
+	
 		local function OnLeave(self)
 			for _, controller in pairs(Splash.Controllers) do
 				db.UIFrameFadeIn(controller, 0.1, controller:GetAlpha(), 1)
 			end
 		end
-
+	
 		local function OnClick(self)
 			db('type', self.ID)
-
+	
 			for key, value in pairs(db.Controllers[self.ID].Settings) do
 				db(key, value)
 			end
-
+	
 			db('newController', true)
 			db('forceController', self.ID)
-
+	
 			PlaySound(CPAPI.GetSound("GS_CHARACTER_SELECTION_ENTER_WORLD"))
 			ReloadUI()
 		end
-
+	
 		Splash.Header = Splash:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 		Splash.Header:SetPoint("TOP", 0, -40)
 		Splash.Header:SetText(SETUP.LAYOUT)
-
+	
 		Splash.Container = CPAPI.CreateFrame("Frame", "$parentContainer", Splash)
 		Splash.Container:SetBackdrop(db.Atlas.Backdrops.Border)
 		Splash.Container:SetPoint("TOPLEFT", 8, -64)
 		Splash.Container:SetPoint("BOTTOMRIGHT", -8, 8)
-
-		Splash.Span = CreateFrame("Frame", "$parentSpan", Splash)
-		Splash.Span:SetPoint("CENTER", -24, 0)
-		Splash.Span:SetHeight(BTN_HEIGHT)
-
-		local pos = 0
+	
+		local row, col, columnOffset = 0, 0, 0.33
 		for name, template in pairs(db.Controllers) do
 			if not template.Hide then
-				pos = pos + 1
-
-				Splash.Span:SetWidth(Splash.Span:GetWidth() + BTN_WIDTH)
-
 				local Controller = CreateFrame("Button", nil, Splash)
 				Splash[name] = Controller
-
-				Controller.Strata = pos
-
+	
 				Controller:SetSize(BTN_WIDTH, BTN_HEIGHT)
-				Controller:SetPoint("LEFT", Splash.Span, "LEFT", BTN_WIDTH*(pos-1), 0)
+				Controller:SetPoint(
+					"TOPLEFT",
+					Splash.Container,
+					"TOPLEFT",
+					(col + columnOffset) * (BTN_WIDTH + COL_PADDING),
+					-row * (BTN_HEIGHT + ROW_PADDING)
+				)
 				Controller.ID = name
-
-				Controller.Normal = Controller:CreateTexture(nil, "ARTWORK", nil, -8 + pos*2)
+	
+				Controller.Normal = Controller:CreateTexture(nil, "ARTWORK")
 				Controller.Normal:SetSize(TEX_SIZE, TEX_SIZE)
 				Controller.Normal:SetPoint("CENTER", 0, 0)
 				Controller.Normal:SetTexture("Interface\\AddOns\\ConsolePort\\Controllers\\"..name.."\\Front")
 				Controller.Normal:SetRotation(TEX_ROTATION)
-
+	
 				Controller:SetScript("OnEnter", OnEnter)
 				Controller:SetScript("OnLeave", OnLeave)
 				Controller:SetScript("OnClick", OnClick)
-
+	
 				Splash.Controllers[#Splash.Controllers + 1] = Controller
+	
+				col = col + 1
+				if col >= ROW_MAX then
+					col = 0
+					row = row + 1
+				end
 			end
 		end
-
+	
+		local totalWidth = ROW_MAX * BTN_WIDTH + (ROW_MAX - 1) * COL_PADDING
+		local totalHeight = row * BTN_HEIGHT + row * ROW_PADDING
+	
 		Splash:SetFrameStrata("DIALOG")
-		Splash:SetPoint("CENTER", 0,0)
-		Splash:SetSize(750, 550)
+		Splash:SetPoint("CENTER", 0, 0)
+		Splash:SetSize(totalWidth + 150, totalHeight + 80)
 		Splash:EnableMouse(true)
 		Splash:SetScript("OnShow", MouselookStop)
 		Splash:Hide()
 		Splash:Show()
 	end
+
 	ConsolePortSplashFrame:Show()
 	PlaySound(CPAPI.GetSound("IG_SPELLBOOK_OPEN"))
 end

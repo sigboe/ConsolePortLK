@@ -311,7 +311,7 @@ function WrapperMixin:SetRebindButton()
 			ConsolePortOldConfigContainerBinds:OnShow()
 		end
 		local bindingBtn = _G[self.confRef]
-		C_Timer.After(0.1, function()
+		CPAPI.TimerAfter(0.1, function()
 			if not InCombatLockdown() then
 				ConsolePort:ScrollToNode(bindingBtn, ConsolePortRebindFrame)
 			end

@@ -25,10 +25,10 @@ Bindings:
 
 db.Controllers.PS4 = {
 	WoWmapper = true,
-	Win = 'Use WoWmapper to play the game with a DualShock 4 controller.\nYou should install and set up WoWmapper before you continue.',
+	Win = 'Use WoWmapperX to play the game with a DualShock 4 controller.\nYou should install and set up WoWmapperX before you continue.',
 	Mac = 'You need to use a custom mapping software to play with this controller on a Mac client.',
-	LinkWin = 'https://github.com/topher-au/WoWmapper/releases/latest',
-	LinkMac = 'https://mods.curse.com/addons/wow/console-port',
+	LinkWin = 'https://github.com/leoaviana/WoWmapperX/releases/latest',
+	LinkMac = 'https://github.com/leoaviana/WoWmapperX?tab=readme-ov-file#non-windows-systems-and-wowmapperx-alternatives',
 	Color = {
 		['UP'] 			= 	'62BBB2',
 		['LEFT'] 		= 	'D35280',

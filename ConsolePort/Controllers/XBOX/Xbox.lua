@@ -40,8 +40,10 @@ db.Controllers.XBOX = {
 		['CP_M2'] 		= 'CP_TR2',
 		['CP_T1'] 		= 'CP_TL1',
 		['CP_T2'] 		= 'CP_TR1',
-		['CP_T3'] 		= 'CP_L_GRIP',
-		['CP_T4'] 		= 'CP_R_GRIP',
+		['CP_T3'] 		= 'CP_L_GRIP1',
+		['CP_T4'] 		= 'CP_R_GRIP1',
+   		['CP_T5'] 		= 'CP_L_GRIP2',
+    	['CP_T6'] 		= 'CP_R_GRIP2',
 		-------------------------------
 		['skipGuideBtn'] = false,
 		-------------------------------
@@ -57,6 +59,8 @@ db.Controllers.XBOX = {
 		['CP_L_DOWN']	= {index = 6, anchor = 'LEFT'},
 		['CP_L_RIGHT']	= {index = 7, anchor = 'LEFT'},
 		['CP_X_LEFT']	= {index = 8, anchor = 'LEFT'},
+		['CP_L_GRIP1']	= {index = -1, anchor = 'LEFT'},
+    	['CP_L_GRIP2']	= {index = 10, anchor = 'LEFT'},
 		-------------------------------------------------
 		['CP_TR1']		= {index = 1, anchor = 'RIGHT'},
 		['CP_TR2']		= {index = 2, anchor = 'RIGHT'},
@@ -66,10 +70,12 @@ db.Controllers.XBOX = {
 		['CP_R_LEFT']	= {index = 6, anchor = 'RIGHT'},
 		['CP_T_R3'] 	= {index = 7, anchor = 'RIGHT'},
 		['CP_X_RIGHT']	= {index = 8, anchor = 'RIGHT'},
+		['CP_R_GRIP1']	= {index = -1, anchor = 'RIGHT'},
+    	['CP_R_GRIP2']	= {index = 10, anchor = 'RIGHT'},
 		-------------------------------------------------
 		['CP_X_CENTER'] = {index = 3, anchor = 'CENTER'},
 		-------------------------------------------------
-	},
+	},    
 	Bindings = {
 		-- XYAB
 		['CP_R_UP'] = 	{
@@ -151,7 +157,12 @@ db.Controllers.XBOX = {
 			['SHIFT-'] 		= 'TOGGLEAUTORUN',
 			['CTRL-'] 		= 'CLICK ConsolePortRaidCursorToggle:LeftButton',
 			['CTRL-SHIFT-'] = 'OPENCHAT',
-		},		
+		},
+		-- Grip buttons
+		['CP_T3'] = {},
+		['CP_T4'] = {},
+    	['CP_T5'] = {},
+		['CP_T6'] = {},		
 		-- Stick buttons
 		['CP_T_R3'] = {},
 		['CP_T_L3'] = {},
