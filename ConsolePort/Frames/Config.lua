@@ -496,8 +496,8 @@ function WindowMixin:OnShow()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 		--self:SetPropagateKeyboardInput(true) 
-		self.Category.NextIcon:SetTexture(db.ICONS.CP_T2)
-		self.Category.PrevIcon:SetTexture(db.ICONS.CP_T1)
+		--self.Category.NextIcon:SetTexture(db.ICONS.CP_T2)
+		--self.Category.PrevIcon:SetTexture(db.ICONS.CP_T1)
 
 		SetSaveShortCut(self)
 	else
