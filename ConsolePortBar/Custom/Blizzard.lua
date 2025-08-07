@@ -58,6 +58,7 @@ do
 	if MicroButtonAndBagsBar then MicroButtonAndBagsBar:Hide() end
 	if StatusTrackingBarManager then StatusTrackingBarManager:Hide() end
 	if MainMenuExpBar then MainMenuExpBar:SetParent(UIHider) end
+	if ExhaustionTick then ExhaustionTick:SetParent(UIHider) end
 	if MainMenuBarPerformanceBar then MainMenuBarPerformanceBar:SetParent(UIHider) end
 	if ReputationWatchBar then ReputationWatchBar:SetParent(UIHider) end
 
