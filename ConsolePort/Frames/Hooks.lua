@@ -189,7 +189,7 @@ function ConsolePort:LoadHookScripts()
 			return
 		end
 		local info = debugstack(2) -- get debug info
-		local addon = info and info:match('\\%a+\\'):gsub('\\', '')
+		local addon = info and info:match('\\%a+\\') and info:match('\\%a+\\'):gsub('\\', '')
 		local file = info and info:match('%a+%.lua:%d+')
 		local blockSave
 		StaticPopupDialogs['CONSOLEPORT_WARNINGSAVEBINDINGS'] = {
