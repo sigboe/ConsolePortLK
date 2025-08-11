@@ -177,8 +177,8 @@ db.Controllers.PS5 = {
 		['CP_L_LEFT'] 	= true,
 		['CP_L_RIGHT'] 	= true,
 		['CP_L_UP'] 	= true,
-		['CP_L_GRIP'] 	= true,
-		['CP_R_GRIP'] 	= true,
+		['CP_L_GRIP'] 	= false,
+		['CP_R_GRIP'] 	= false,
 	},
 }
 

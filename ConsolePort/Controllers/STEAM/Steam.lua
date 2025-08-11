@@ -39,8 +39,8 @@ db.Controllers.STEAM = {
 		['CP_M2'] 		= 'CP_TR2',
 		['CP_T1'] 		= 'CP_TL1',
 		['CP_T2'] 		= 'CP_TR1',
-		['CP_T3'] 		= 'CP_L_GRIP',
-		['CP_T4'] 		= 'CP_R_GRIP',
+		['CP_T3'] 		= 'CP_L_GRIP1',
+		['CP_T4'] 		= 'CP_R_GRIP1',
 		-------------------------------
 		['skipGuideBtn'] = true,
 		['UIdisableHoldRepeat'] = true,
@@ -51,7 +51,7 @@ db.Controllers.STEAM = {
 	Layout = {
 		['CP_TL1']		= {index = 1, anchor = 'LEFT'},
 		['CP_TL2']		= {index = 2, anchor = 'LEFT'},
-		['CP_L_GRIP']	= {index = 3, anchor = 'LEFT'},
+		['CP_L_GRIP1']	= {index = 3, anchor = 'LEFT'},
 		['CP_L_UP']		= {index = 4, anchor = 'LEFT'},
 		['CP_L_LEFT']	= {index = 5, anchor = 'LEFT'},
 		['CP_L_DOWN']	= {index = 6, anchor = 'LEFT'},
@@ -61,7 +61,7 @@ db.Controllers.STEAM = {
 		-------------------------------------------------
 		['CP_TR1']		= {index = 1, anchor = 'RIGHT'},
 		['CP_TR2']		= {index = 2, anchor = 'RIGHT'},
-		['CP_R_GRIP']	= {index = 3, anchor = 'RIGHT'},
+		['CP_R_GRIP1']	= {index = 3, anchor = 'RIGHT'},
 		['CP_T_R3'] 	= {index = 4, anchor = 'RIGHT'},
 		['CP_R_UP']		= {index = 5, anchor = 'RIGHT'},
 		['CP_R_RIGHT']	= {index = 6, anchor = 'RIGHT'},
@@ -163,7 +163,7 @@ db.Controllers.STEAM = {
 		['CP_L_LEFT'] 	= true,
 		['CP_L_RIGHT'] 	= true,
 		['CP_L_UP'] 	= true,
-		['CP_L_GRIP'] 	= true,
-		['CP_R_GRIP'] 	= true,
+		['CP_L_GRIP'] 	= false,
+		['CP_R_GRIP'] 	= false,
 	},
 }

@@ -126,9 +126,12 @@ function Bar:ADDON_LOADED(name)
 		-- compat: binding ID fix for grip buttons , remove later on
 		else local layout = ConsolePortBarSetup.layout
 			if layout then
-				layout.CP_T3 = layout.CP_T3 or layout.CP_L_GRIP -- translate Lgrip to t3
-				layout.CP_T4 = layout.CP_T4 or layout.CP_R_GRIP -- translate Rgrip to t4
-				layout.CP_L_GRIP = nil layout.CP_R_GRIP = nil
+				layout.CP_T3 = layout.CP_T3 or layout.CP_L_GRIP1 -- translate Lgrip1 to t3
+				layout.CP_T4 = layout.CP_T4 or layout.CP_R_GRIP1 -- translate Rgrip1 to t4
+				layout.CP_L_GRIP1 = nil layout.CP_R_GRIP1 = nil
+				layout.CP_T5 = layout.CP_T5 or layout.CP_L_GRIP2 -- translate Lgrip2 to t5
+				layout.CP_T6 = layout.CP_T6 or layout.CP_R_GRIP2 -- translate Rgrip2 to t6
+				layout.CP_L_GRIP2 = nil layout.CP_R_GRIP2 = nil
 			end
 		-------------------------------
 		end

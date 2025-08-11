@@ -47,6 +47,8 @@ local function LoadTriggerTextures(ctrlType, cfg, shared)
 		[2] = cfg.CP_T2 or 'CP_TR2',
 		[3] = cfg.CP_T3 or 'CP_L_GRIP',
 		[4] = cfg.CP_T4 or 'CP_R_GRIP',
+		[5] = cfg.CP_T3 or 'CP_L_GRIP',
+		[6] = cfg.CP_T4 or 'CP_R_GRIP',
 	}
 	-- Arbitrary buttons
 	for i=#t, 8 do

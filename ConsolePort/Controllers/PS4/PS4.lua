@@ -40,8 +40,8 @@ db.Controllers.PS4 = {
 		['CP_M2'] 		= 'CP_TL2',
 		['CP_T1'] 		= 'CP_TR1',
 		['CP_T2'] 		= 'CP_TR2',
-		['CP_T3'] 		= 'CP_L_GRIP',
-		['CP_T4'] 		= 'CP_R_GRIP',
+		['CP_T3'] 		= 'CP_L_GRIP1',
+		['CP_T4'] 		= 'CP_R_GRIP1',
 		-------------------------------
 		['skipGuideBtn'] = false,
 		-------------------------------
@@ -160,8 +160,8 @@ db.Controllers.PS4 = {
 		['CP_L_LEFT'] 	= true,
 		['CP_L_RIGHT'] 	= true,
 		['CP_L_UP'] 	= true,
-		['CP_L_GRIP'] 	= true,
-		['CP_R_GRIP'] 	= true,
+		['CP_L_GRIP'] 	= false,
+		['CP_R_GRIP'] 	= false,
 	},
 }
 

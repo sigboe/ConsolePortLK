@@ -464,8 +464,8 @@ function ConsolePort:CalibrateController(reset)
 								["CP_TL2"] = true,
 								["CP_TR1"] = true,
 								["CP_TR2"] = true,
-								["CP_L_GRIP"] = true,
-								["CP_R_GRIP"] = true,
+								["CP_L_GRIP1"] = true,
+								["CP_R_GRIP1"] = true,
  							}
 
  							local ordered = {
@@ -473,8 +473,8 @@ function ConsolePort:CalibrateController(reset)
  								"CP_TL2",
  								"CP_TR1",
  								"CP_TR2",
- 								"CP_L_GRIP",
- 								"CP_R_GRIP",
+ 								"CP_L_GRIP1",
+ 								"CP_R_GRIP1",
  							}
 
  							local newModifier = self.ButtonTex:GetTexture():match("CP_.+")

@@ -1042,8 +1042,8 @@ db.PANELS[#db.PANELS + 1] = {name = "Binds", header = TUTORIAL.HEADER, mixin = W
 	local triggers = {
 		[settings.CP_T1 or 'CP_TR1'] 					= 'CP_T1',
 		[settings.CP_T2 or 'CP_TR2'] 					= 'CP_T2',
-		[settings.CP_T3 or 'CP_L_GRIP' or "CP_L_GRIP1"] = 'CP_T3',
-		[settings.CP_T4 or 'CP_R_GRIP' or "CP_R_GRIP1"] = 'CP_T4',
+		[settings.CP_T3 or 'CP_L_GRIP1'] 				= 'CP_T3',
+		[settings.CP_T4 or 'CP_R_GRIP1'] 				= 'CP_T4',
 		[settings.CP_T5 or 'CP_L_GRIP2'] 				= 'CP_T5',
 		[settings.CP_T6 or 'CP_R_GRIP2'] 				= 'CP_T6',
 	}
