@@ -57,6 +57,7 @@ Stance.Shadow:SetSize(82, 82)
 Stance.Shadow:SetTexture('Interface\\AddOns\\ConsolePortBar\\Textures\\Button\\BigShadow')
 Stance.Shadow:SetAlpha(0.75) 
 
+
 function Button:OnEnter()
 	if ( not self.tooltipName ) then
 		return
@@ -184,7 +185,7 @@ Stance:SetScript('OnEvent', function(self, event, ...)
 		STANCE_COUNT = GetNumShapeshiftForms(); 
 
 		if(not InCombatLockdown()) then
-			if(STANCE_COUNT > 0) then			
+			if(STANCE_COUNT > 0 and not ConsolePortBarSetup.hidestance) then			
 				self:UpdateButtons()
 				self:Update()
 				self:SetupEverything()
@@ -200,7 +201,7 @@ Stance:SetScript('OnEvent', function(self, event, ...)
 		if(self.initialized == false and GetNumShapeshiftForms() > 0) then
 			STANCE_COUNT = GetNumShapeshiftForms(); 
 
-			if(not InCombatLockdown()) then 
+			if(not InCombatLockdown() and not ConsolePortBarSetup.hidestance) then 
 				self:UpdateButtons()
 				self:Update()
 				self:SetupEverything()
@@ -211,7 +212,7 @@ Stance:SetScript('OnEvent', function(self, event, ...)
 			end
 		end
 	elseif event == 'SPELL_UPDATE_COOLDOWN' then
-		if(STANCE_COUNT > 0) then
+		if(STANCE_COUNT > 0 and not ConsolePortBarSetup.hidestance) then
 			self:UpdateCooldowns()
 		end
 	end 

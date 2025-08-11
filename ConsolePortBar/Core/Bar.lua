@@ -198,10 +198,31 @@ function Bar:OnLoad(cfg, benign)
 
 	if cfg.hidestance then
 		Bar.Stance:Hide()
+	else
+		STANCE_COUNT = GetNumShapeshiftForms(); 
+		if(not InCombatLockdown()) then
+			if(STANCE_COUNT > 0) then			
+				Bar.Stance:UpdateButtons()
+				Bar.Stance:Update()
+				Bar.Stance:SetupEverything()
+				Bar.Stance:Show();
+				Bar.Stance.initialized = true
+			end 
+		else
+			Bar.Stance.initialized = false 
+		end
 	end
 
 	if cfg.hidetotem then
 		Bar.Totem:Hide()
+	else
+		TOTEM_COUNT = MultiCastActionBarFrame.numActiveSlots; 	
+		if TOTEM_COUNT > 0 then	
+        	Bar.Totem:UpdateButtons()
+       		Bar.Totem:Update()
+        	Bar.Totem:SetupEverything()
+			Bar.Totem:Show(); 
+		end 
 	end
 
 	-- Show class tint line

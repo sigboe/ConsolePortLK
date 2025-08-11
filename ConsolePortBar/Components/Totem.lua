@@ -276,7 +276,7 @@ Totem:SetScript('OnEvent', function(self, event, ...)
     elseif event == 'PLAYER_ENTERING_WORLD' then
 		-- reloads Totem frame completely
 		TOTEM_COUNT = MultiCastActionBarFrame.numActiveSlots; 	
-		if TOTEM_COUNT > 0 then	
+		if TOTEM_COUNT > 0 and not ConsolePortBarSetup.hidetotem then	
         	self:UpdateButtons()
        		self:Update()
         	self:SetupEverything()
